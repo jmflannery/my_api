@@ -1,0 +1,28 @@
+class SessionsController < ApplicationController
+  include ActionController::Cookies
+
+  before_action :find_user
+
+  def create
+    if @user.authenticate(params[:password])
+      sign_in
+      render json: @user, status: :created
+    else
+      head :unauthorized
+    end
+  end
+
+  def destroy
+  end
+
+  private
+
+  def find_user
+    @user = User.find_by! email: params[:email]
+  end
+
+  def sign_in
+    token = Token.find_or_create_by_key(key: @auth_key, user: @user, ip_address: request.remote_ip)
+    cookies.permanent[:api_key] = token.key
+  end
+end
