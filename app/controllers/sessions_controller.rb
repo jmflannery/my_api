@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
-  include ActionController::Cookies
-
   before_action :find_user
+  skip_before_action :authenticate_token!, only: %i[create]
 
   def create
     if @user.authenticate(params[:password])
