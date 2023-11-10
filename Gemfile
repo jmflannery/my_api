@@ -42,6 +42,11 @@ group :development, :test do
   gem "rack-test"
   gem "factory_bot_rails"
   gem "faker"
+
+  gem "capistrano", "~> 3.10", require: false
+  gem "capistrano-rails", "~> 1.6", require: false
+  gem 'capistrano-chruby'
+  gem 'capistrano3-puma'
 end
 
 group :development do
