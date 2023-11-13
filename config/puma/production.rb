@@ -7,7 +7,7 @@ max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { 1 }
 threads min_threads_count, max_threads_count
 
-app_dir = File.expand_path("../../../../..", __FILE__)
+app_dir = File.expand_path("../../../..", __FILE__)
 shared_dir = "#{app_dir}/shared"
 
 environment ENV.fetch("RAILS_ENV") { "production" }
