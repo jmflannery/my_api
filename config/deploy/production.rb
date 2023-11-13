@@ -9,6 +9,8 @@ server "api.jackflannery.com", user: "wadewatts", roles: %w{web app db}
 
 set :chruby_ruby, 'ruby-3.2.2'
 
+set :puma_env, 'production'
+
 # set :ssh_options, { forward_agent: true }
 
 # role-based syntax
