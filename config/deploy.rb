@@ -29,6 +29,8 @@ append :linked_files, 'config/database.yml', 'config/credentials/production.key'
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "vendor", "storage"
 
+append :chruby_map_bins, 'puma'
+
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
