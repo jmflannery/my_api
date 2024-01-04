@@ -9,7 +9,7 @@ require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
 # Include tasks from other gems included in your Gemfile
-require "capistrano/chruby"
+require "capistrano/rbenv"
 require "capistrano/bundler"
 require "capistrano/rails/migrations"
 

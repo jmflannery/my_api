@@ -2,30 +2,12 @@
 # ======================
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
+set :domain_name, 'api.jackflannery.com'
 
-server "api.jackflannery.com", user: "wadewatts", roles: %w{web app db}
-# server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
-# server "db.example.com", user: "deploy", roles: %w{db}
-
-set :chruby_ruby, 'ruby-3.2.2'
+server fetch(:domain_name), user: "wadewatts", roles: %w{web app db}
 
 set :puma_env, 'production'
-
-# set :ssh_options, { forward_agent: true }
-
-# role-based syntax
-# ==================
-
-# Defines a role with one or multiple servers. The primary server in each
-
-# property set. Specify the username and a domain or IP for the server.
-# Don't use `:all`, it's a meta role.
-
-# role :app, %w{deploy@example.com}, my_property: :my_value
-# role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
-# role :db,  %w{deploy@example.com}
-
-
+set :puma_socket, "#{fetch(:shared_path)}/tmp/sockets/puma.socket"
 
 # Configuration
 # =============
