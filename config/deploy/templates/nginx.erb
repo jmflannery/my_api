@@ -54,7 +54,7 @@ server {
     }
 
     if (!-f $request_filename) {
-      proxy_pass <%= fetch(:application) %>_puma_<%= fetch(:puma_env) %>;
+      proxy_pass http://<%= fetch(:application) %>_puma_<%= fetch(:puma_env) %>;
       break;
     }
   }

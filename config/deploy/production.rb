@@ -7,7 +7,7 @@ set :domain_name, 'api.jackflannery.com'
 server fetch(:domain_name), user: "wadewatts", roles: %w{web app db}
 
 set :puma_env, 'production'
-set :puma_socket, "#{shared_path}/tmp/sockets/puma.socket"
+set :puma_socket, "#{shared_path}/tmp/sockets/puma.sock"
 
 # Configuration
 # =============
