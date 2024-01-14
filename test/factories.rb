@@ -1,4 +1,11 @@
 FactoryBot.define do
+  factory :profile do
+    name { "MyString" }
+    title { "MyString" }
+    bio { "MyText" }
+    user { nil }
+  end
+
   factory :token do
   end
 
