@@ -22,6 +22,11 @@ class SessionsController < ApplicationController
 
   def sign_in
     token = Token.find_or_create_by_key(key: @auth_key, user: @user, ip_address: request.remote_ip)
-    cookies.permanent[:api_key] = token.key
+    cookies[:api_key] = {
+      value: token.key,
+      expires: 1.year,
+      httponly: true,
+      secure: true,
+    }
   end
 end
