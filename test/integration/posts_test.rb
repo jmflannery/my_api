@@ -35,6 +35,22 @@ describe 'Posts' do
       end
     end
 
+    describe 'if the request includes a valid Authorization header' do
+      before do
+        sign_in_with_header current_user
+      end
+
+      it 'should create a Post' do
+        post '/posts', post: @params
+        post = JSON.parse(last_response.body)
+        expect(last_response.status).must_equal 201
+        expect(post['id']).must_be :>=, 1
+        expect(post['title']).must_equal @params[:title]
+        expect(post['body']).must_equal @params[:body]
+        expect(post['slug']).must_equal @params[:slug]
+      end
+    end
+
     describe 'if the request does not include a valid auth_key cookie' do
       it 'should return 401 Unauthorized' do
         post '/posts', post: @params
@@ -71,7 +87,25 @@ describe 'Posts' do
       end
     end
 
-    describe 'if the request does not include a valid auth_key cookie' do
+    describe 'if the request includes a valid Authorization header' do
+      before do
+        sign_in_with_header current_user
+      end
+
+      it 'should return all Posts belonging to the current_user' do
+        get '/posts'
+        posts = JSON.parse(last_response.body)
+        post_ids = posts.map { |p| p['id'] }
+        expect(last_response.status).must_equal 200
+        expect(posts.size).must_equal 3
+        expect(post_ids).must_be :include?, @unpublished_post.id
+        expect(post_ids).must_be :include?, @published_post.id
+        expect(post_ids).must_be :include?, @edited_post.id
+        expect(post_ids).wont_be :include?, @op_post.id
+      end
+    end
+
+    describe 'if the request does not include a valid auth_key cookie or header' do
       it 'should return only published Posts' do
         get '/posts'
         posts = JSON.parse(last_response.body)
@@ -90,7 +124,7 @@ describe 'Posts' do
         sign_in current_user
       end
 
-      describe 'if requesting a valid Post id' do
+      describe 'if requesting an unpublished Post' do
         subject { create(:post, user: current_user) }
 
         it 'should return the Post' do
@@ -121,7 +155,7 @@ describe 'Posts' do
         end
       end
 
-      describe 'given in invalid Post id' do
+      describe 'if requesting an unpublished Post' do
         subject { create(:post, user: current_user) }
 
         it 'should return 404 Not Found' do
@@ -174,6 +208,23 @@ describe 'Posts' do
           post = JSON.parse(last_response.body)
           expect(post['last_edited_at']).must_be :>, before_time
         end
+      end
+    end
+
+    describe 'if the request includes a valid Authorization header' do
+      before do
+        sign_in_with_header current_user
+      end
+
+      it 'should update the Post' do
+        put "/posts/#{subject.id}", post: params
+        post = JSON.parse(last_response.body)
+
+        expect(last_response.status).must_equal 200
+        expect(post['id']).must_equal subject.id
+        expect(post['title']).must_equal params[:title]
+        expect(post['body']).must_equal params[:body]
+        expect(post['slug']).must_equal params[:slug]
       end
     end
 

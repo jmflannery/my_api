@@ -17,9 +17,24 @@ class Minitest::Test
     DatabaseCleaner.start
   end
 
+  def find_or_create_token user, key = nil
+    Token.find_or_create_by_key key: key, user: user, ip_address: '127.0.0.1'
+  end
+
   def sign_in user, key = nil
-    @token = Token.find_or_create_by_key key: key, user: user, ip_address: '1.2.3.4'
+    @token = find_or_create_token user, key
     rack_test_session.set_cookie "api_key=#{@token.key}"
+  end
+
+  def sign_in_with_header user, key = nil
+    @token = find_or_create_token user, key
+    header 'Authorization', "Bearer #{@token.key}"
+  end
+
+  def parse_authorization_header(rack_headers)
+    auth_header = rack_headers['Authorization']
+    match = auth_header&.match(/\AToken (?<token>.+)\z/)
+    return match&.named_captures&.dig('token')
   end
 end
 

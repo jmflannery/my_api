@@ -28,5 +28,6 @@ class SessionsController < ApplicationController
       httponly: true,
       secure: true,
     }
+    response.headers['Authorization'] = "Token #{token.key}"
   end
 end

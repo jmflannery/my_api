@@ -13,17 +13,20 @@ describe 'Sessions' do
 
     describe 'Given a valid email and correct password' do
       it 'should sign in the user' do
-        post '/sessions', credentials
+        post '/sessions', credentials, { "HTTPS" => 'on' }
         user = JSON.parse(last_response.body)
+        token_from_cookie = last_response.cookies['api_key'][0]
+        token_from_header = parse_authorization_header(last_response.headers)
         expect(last_response.status).must_equal 201
-        expect(last_response.cookies['api_key']).must_be :present?
-        expect(last_response.cookies['api_key'][0].length).must_equal 64
+        expect(token_from_cookie.length).must_equal 64
+        expect(token_from_header.length).must_equal 64
+        expect(token_from_cookie).must_equal(token_from_header)
         expect(user['id']).must_equal current_user.id
       end
 
       describe 'with no authentication cookie included' do
         it 'should create a Token' do
-          post '/sessions', credentials
+          post '/sessions', credentials, { "HTTPS" => 'on' }
           expect(current_user.reload.tokens.first).must_be :present?
         end
       end
@@ -35,7 +38,7 @@ describe 'Sessions' do
 
         it 'should find and update the Token' do
           previously_used_at = @token.last_used_at
-          post '/sessions', credentials
+          post '/sessions', credentials, { "HTTPS" => 'on' }
           expect(last_response.cookies['api_key'].value[0]).must_equal @token.key
           expect(@token.reload.last_used_at).must_be :>, previously_used_at
           expect(@token.ip_address).must_equal '127.0.0.1'
