@@ -13,9 +13,10 @@ describe 'Posts' do
     before do
       title = "How to write #{Faker::ProgrammingLanguage.name} like a pro"
       @params = {
-        title: title,
-        slug: title.downcase.split(' ').join('-'),
-        body: Faker::Lorem.paragraphs(number: 3).join("\n")
+        title:        title,
+        slug:         title.split(' ').join('-'),
+        description:  Faker::Hacker.say_something_smart,
+        body:         Faker::Lorem.paragraphs(number: 3).join("\n")
       }
     end
 
@@ -30,6 +31,7 @@ describe 'Posts' do
         expect(last_response.status).must_equal 201
         expect(post['id']).must_be :>=, 1
         expect(post['title']).must_equal @params[:title]
+        expect(post['description']).must_equal @params[:description]
         expect(post['body']).must_equal @params[:body]
         expect(post['slug']).must_equal @params[:slug]
       end
@@ -46,6 +48,7 @@ describe 'Posts' do
         expect(last_response.status).must_equal 201
         expect(post['id']).must_be :>=, 1
         expect(post['title']).must_equal @params[:title]
+        expect(post['description']).must_equal @params[:description]
         expect(post['body']).must_equal @params[:body]
         expect(post['slug']).must_equal @params[:slug]
       end
@@ -167,11 +170,19 @@ describe 'Posts' do
   end
 
   describe 'PUT update' do
-    subject { create(:post, title: 'My title', slug: 'my-title', body: 'My body', user: current_user) }
+    subject { create(
+      :post,
+      title:        'My title',
+      slug:         'my-title',
+      description:  'My Description',
+      body:         'My body',
+      user:         current_user
+    )}
     let(:params) {{
-      title: 'My updated title',
-      slug: 'my-updated-title',
-      body: 'My updated body',
+      title:        'My Updated Title',
+      slug:         'my-updated-title',
+      description:  'My Updated Description',
+      body:         'My updated body',
     }}
 
     describe 'if the request includes a valid auth_key cookie' do
@@ -186,6 +197,7 @@ describe 'Posts' do
         expect(last_response.status).must_equal 200
         expect(post['id']).must_equal subject.id
         expect(post['title']).must_equal params[:title]
+        expect(post['description']).must_equal params[:description]
         expect(post['body']).must_equal params[:body]
         expect(post['slug']).must_equal params[:slug]
       end
@@ -223,6 +235,7 @@ describe 'Posts' do
         expect(last_response.status).must_equal 200
         expect(post['id']).must_equal subject.id
         expect(post['title']).must_equal params[:title]
+        expect(post['description']).must_equal params[:description]
         expect(post['body']).must_equal params[:body]
         expect(post['slug']).must_equal params[:slug]
       end

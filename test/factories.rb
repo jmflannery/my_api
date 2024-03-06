@@ -17,9 +17,9 @@ FactoryBot.define do
   end
 
   factory :post do
-
     title { @base_title = "How to write #{Faker::ProgrammingLanguage.name} like a pro" }
-    slug { @base_title.downcase.gsub(/\W/, '-') }
+    description { Faker::Hacker.say_something_smart }
+    slug { @base_title.gsub(/\W/, '-') }
     body { Faker::Lorem.paragraphs(number: 3).join("\n") }
     published_at { nil }
     last_edited_at { nil }
