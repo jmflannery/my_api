@@ -1,6 +1,6 @@
 default: &default
-  adapter: <%= ENV['DB_ADAPTER'] %>
   encoding: unicode
+  adapter: <%= ENV['DB_ADAPTER'] %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV.fetch('DB_HOST') { 'localhost' } %>
@@ -16,7 +16,7 @@ test:
   database: my_api_test
 
 production:
-  encoding: unicode
+  <<: *default
   adapter: <%= Rails.application.credentials.database.adapter %>
   database: <%= Rails.application.credentials.database.name %>
   username: <%= Rails.application.credentials.database.user %>
