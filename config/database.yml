@@ -1,10 +1,10 @@
 default: &default
-  adapter: <%= ENV.fetch('DB_ADAPTER') %>
+  adapter: <%= ENV['DB_ADAPTER'] %>
   encoding: unicode
-  username: <%= ENV.fetch('DB_USERNAME') %>
-  password: <%= ENV.fetch('DB_PASSWORD') %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV.fetch('DB_HOST') { 'localhost' } %>
-  port: <%= ENV.fetch('DB_PORT') %>
+  port: <%= ENV['DB_PORT'] %>
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
 
 development:
