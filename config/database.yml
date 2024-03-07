@@ -16,9 +16,9 @@ test:
   database: my_api_test
 
 production:
-  <<: *default
-  database: <%= Rails.application.credentials.database.name %>
+  encoding: unicode
   adapter: <%= Rails.application.credentials.database.adapter %>
+  database: <%= Rails.application.credentials.database.name %>
   username: <%= Rails.application.credentials.database.user %>
   password: <%= Rails.application.credentials.database.password %>
   host: <%= Rails.application.credentials.database.host || 'localhost' %>
