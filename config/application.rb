@@ -6,6 +6,9 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Load .env.local in test
+Dotenv::Rails.files.unshift(".env.local") if ENV["RAILS_ENV"] == "test"
+
 module MyApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
