@@ -9,9 +9,9 @@ class PostsController < ApplicationController
 
   def index
     if current_user
-      render json: current_user.posts
+      render json: current_user.posts.descending
     else
-      render json: Post.published
+      render json: Post.published.published_descending
     end
   end
 

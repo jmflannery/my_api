@@ -6,6 +6,8 @@ class Post < ApplicationRecord
   validates :title, :body, :slug, presence: true
 
   scope :published, ->(cutoff = Time.current) { where('published_at <= ?', cutoff) }
+  scope :published_descending, -> { order(published_at: :desc) }
+  scope :descending, -> { order(created_at: :desc) }
 
   def publish!
     update! published_at: Time.current

@@ -67,8 +67,8 @@ describe 'Posts' do
     let(:other_user) { create(:user) }
     before do
       @unpublished_post = create(:post, user: current_user)
-      @published_post   = create(:published_post, user: current_user)
-      @edited_post      = create(:edited_post, user: current_user)
+      @published_post_1 = create(:published_post, user: current_user)
+      @published_post_2 = create(:published_post, user: current_user)
       @op_post          = create(:post, user: other_user)
     end
 
@@ -77,16 +77,20 @@ describe 'Posts' do
         sign_in current_user
       end
 
-      it 'should return all Posts belonging to the current_user' do
+      it 'should return all Posts belonging to the current_user descending by created_at' do
         get '/posts'
-        posts = JSON.parse(last_response.body)
-        post_ids = posts.map { |p| p['id'] }
         expect(last_response.status).must_equal 200
+        posts = JSON.parse(last_response.body)
         expect(posts.size).must_equal 3
-        expect(post_ids).must_be :include?, @unpublished_post.id
-        expect(post_ids).must_be :include?, @published_post.id
-        expect(post_ids).must_be :include?, @edited_post.id
-        expect(post_ids).wont_be :include?, @op_post.id
+        expect(posts[0]['id']).must_equal @published_post_2.id
+        expect(posts[1]['id']).must_equal @published_post_1.id
+        expect(posts[2]['id']).must_equal @unpublished_post.id
+        expect(posts[0]['slug']).must_equal @published_post_2.slug
+        expect(posts[1]['slug']).must_equal @published_post_1.slug
+        expect(posts[2]['slug']).must_equal @unpublished_post.slug
+        expect(posts[0]['title']).must_equal @published_post_2.title
+        expect(posts[1]['title']).must_equal @published_post_1.title
+        expect(posts[2]['title']).must_equal @unpublished_post.title
       end
     end
 
@@ -95,28 +99,35 @@ describe 'Posts' do
         sign_in_with_header current_user
       end
 
-      it 'should return all Posts belonging to the current_user' do
+      it 'should return all Posts belonging to the current_user descending by created_at' do
         get '/posts'
-        posts = JSON.parse(last_response.body)
-        post_ids = posts.map { |p| p['id'] }
         expect(last_response.status).must_equal 200
+        posts = JSON.parse(last_response.body)
         expect(posts.size).must_equal 3
-        expect(post_ids).must_be :include?, @unpublished_post.id
-        expect(post_ids).must_be :include?, @published_post.id
-        expect(post_ids).must_be :include?, @edited_post.id
-        expect(post_ids).wont_be :include?, @op_post.id
+        expect(posts[0]['id']).must_equal @published_post_2.id
+        expect(posts[1]['id']).must_equal @published_post_1.id
+        expect(posts[2]['id']).must_equal @unpublished_post.id
+        expect(posts[0]['slug']).must_equal @published_post_2.slug
+        expect(posts[1]['slug']).must_equal @published_post_1.slug
+        expect(posts[2]['slug']).must_equal @unpublished_post.slug
+        expect(posts[0]['title']).must_equal @published_post_2.title
+        expect(posts[1]['title']).must_equal @published_post_1.title
+        expect(posts[2]['title']).must_equal @unpublished_post.title
       end
     end
 
     describe 'if the request does not include a valid auth_key cookie or header' do
-      it 'should return only published Posts' do
+      it 'should return only published Posts descending by published_at' do
         get '/posts'
-        posts = JSON.parse(last_response.body)
-        post_ids = posts.map { |p| p['id'] }
         expect(last_response.status).must_equal 200
+        posts = JSON.parse(last_response.body)
         expect(posts.size).must_equal 2 
-        expect(post_ids).must_be :include?, @published_post.id
-        expect(post_ids).must_be :include?, @edited_post.id
+        expect(posts[0]['id']).must_equal @published_post_2.id
+        expect(posts[1]['id']).must_equal @published_post_1.id
+        expect(posts[0]['slug']).must_equal @published_post_2.slug
+        expect(posts[1]['slug']).must_equal @published_post_1.slug
+        expect(posts[0]['title']).must_equal @published_post_2.title
+        expect(posts[1]['title']).must_equal @published_post_1.title
       end
     end
   end

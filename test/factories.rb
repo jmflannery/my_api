@@ -25,7 +25,7 @@ FactoryBot.define do
     last_edited_at { nil }
 
     trait :published do
-      published_at { 1.week.ago }
+      published_at { Time.now }
     end
 
     trait :published_future do
@@ -33,7 +33,7 @@ FactoryBot.define do
     end
 
     trait :edited do
-      last_edited_at { 1.day.ago }
+      last_edited_at { Time.now }
     end
 
     factory :published_post, traits: [:published]
