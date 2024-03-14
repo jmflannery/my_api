@@ -25,7 +25,7 @@ class ApiIntegrationTestCase < ActiveSupport::TestCase
     Rack::Builder.parse_file('config.ru')
   end
 
-  register_spec_type(/\w+\s?API$/, self)
+  register_spec_type(/\w+\s?API$/i, self)
 
   def before_setup
     super
