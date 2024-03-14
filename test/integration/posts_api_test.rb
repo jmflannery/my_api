@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe 'PostsAPI' do
+describe 'Posts API' do
   let(:current_user) { create(:user) }
 
   describe 'POST create' do

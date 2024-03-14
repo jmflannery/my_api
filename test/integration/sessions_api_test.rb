@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe 'SessionsAPI' do
+describe 'Sessions API' do
   describe 'Sign In' do
     let(:current_user) { create(:user) }
     let(:credentials) {{ email: current_user.email, password: current_user.password }}
