@@ -44,6 +44,7 @@ group :development, :test do
 
   gem 'dotenv'
 
+  gem "minitest-rails", "~> 7.1.0"
   gem "rack-test"
   gem "factory_bot_rails"
   gem "faker"

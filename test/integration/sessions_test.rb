@@ -1,12 +1,6 @@
 require 'test_helper'
 
-describe 'Sessions' do
-  include Rack::Test::Methods
-
-  def app
-    Rack::Builder.parse_file('config.ru')
-  end
-
+describe 'SessionsAPI' do
   describe 'Sign In' do
     let(:current_user) { create(:user) }
     let(:credentials) {{ email: current_user.email, password: current_user.password }}
@@ -16,7 +10,7 @@ describe 'Sessions' do
         post '/sessions', credentials, { "HTTPS" => 'on' }
         user = JSON.parse(last_response.body)
         token_from_cookie = last_response.cookies['api_key'][0]
-        token_from_header = parse_authorization_header(last_response.headers)
+        token_from_header = parse_authorization_header
         expect(last_response.status).must_equal 201
         expect(token_from_cookie.length).must_equal 64
         expect(token_from_header.length).must_equal 64

@@ -1,12 +1,6 @@
 require 'test_helper'
 
-describe 'Posts' do
-  include Rack::Test::Methods
-
-  def app
-    Rack::Builder.parse_file('config.ru')
-  end
-
+describe 'PostsAPI' do
   let(:current_user) { create(:user) }
 
   describe 'POST create' do

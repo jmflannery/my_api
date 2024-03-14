@@ -3,7 +3,7 @@ class Token < ApplicationRecord
 
   validates :key, :last_used_at, :ip_address, presence: true
 
-  def self.find_or_create_by_key( user:, key: nil, ip_address: nil)
+  def self.find_or_create_by_key(user:, key: nil, ip_address: nil)
     if token = user.tokens.find_by(key: key)
       token.mark_accessed(ip_address)
       token
