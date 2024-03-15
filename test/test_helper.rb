@@ -4,9 +4,7 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/rails"
-require 'database_cleaner/active_record'
-
-DatabaseCleaner.strategy = :transaction
+require "minitest/pride"
 
 module ActiveSupport
   class TestCase
@@ -26,12 +24,6 @@ class ApiIntegrationTestCase < ActiveSupport::TestCase
   end
 
   register_spec_type(/\w+\s?API$/i, self)
-
-  def before_setup
-    super
-    DatabaseCleaner.clean
-    DatabaseCleaner.start
-  end
 
   def find_or_create_token user, key = nil
     Token.find_or_create_by_key key: key, user: user, ip_address: '127.0.0.1'
