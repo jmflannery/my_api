@@ -1,5 +1,5 @@
 namespace :deploy do
-  before 'check:linked_files', 'upload:config', 'upload:keys'
+  # before 'check:linked_files', 'upload:config', 'upload:keys'
 
   namespace :upload do
     desc 'upload key'

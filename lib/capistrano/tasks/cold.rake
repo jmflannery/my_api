@@ -54,7 +54,7 @@ namespace :deploy do
   end
 
   task :cold do
-    before 'deploy:check:linked_files', 'deploy:upload:db_config'
+    # before 'deploy:check:linked_files', 'deploy:upload:db_config'
     before 'deploy:check:linked_files', 'deploy:upload:key'
     before 'deploy:migrate',            'deploy:db:create'
     before 'deploy:finished',           'puma:install'
