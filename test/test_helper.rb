@@ -1,6 +1,6 @@
 ENV["RAILS_ENV"] ||= "test"
-# Consider setting MT_NO_EXPECTATIONS to not add expectations to Object.
-# ENV["MT_NO_EXPECTATIONS"] = "true"
+ENV["MT_NO_EXPECTATIONS"] = "true"
+
 require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/rails"
@@ -24,6 +24,10 @@ class ApiIntegrationTestCase < ActiveSupport::TestCase
   end
 
   register_spec_type(/\w+\s?API$/i, self)
+
+  register_spec_type(self) do |_desc, *addl|
+    addl.include? :api
+  end
 
   def find_or_create_token user, key = nil
     Token.find_or_create_by_key key: key, user: user, ip_address: '127.0.0.1'

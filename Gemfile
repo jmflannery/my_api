@@ -45,7 +45,6 @@ group :development, :test do
   gem 'dotenv'
 
   gem "minitest-rails", "~> 7.1.0"
-  gem "rack-test"
   gem "factory_bot_rails"
   gem "faker"
 
@@ -53,4 +52,8 @@ group :development, :test do
   gem "capistrano-rails", "~> 1.6", require: false
   gem 'capistrano-rbenv', '~> 2.2'
   gem 'capistrano3-puma'
+end
+
+group :test do
+  gem "rack-test"
 end

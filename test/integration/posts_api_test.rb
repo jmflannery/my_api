@@ -8,7 +8,7 @@ describe 'Posts API' do
       title = "How to write #{Faker::ProgrammingLanguage.name} like a pro"
       @params = {
         title:        title,
-        slug:         title.split(' ').join('-'),
+        slug:         title.downcase.gsub(/\W+/, '-'),
         description:  Faker::Hacker.say_something_smart,
         body:         Faker::Lorem.paragraphs(number: 3).join("\n")
       }
