@@ -1,7 +1,7 @@
 ## This is the file that puma will use,
 ## you can configure with set :puma_env, 'production'
 
-workers 0
+workers ENV.fetch("WEB_CONCURRENCY") { 0 }
 
 max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { 1 }
