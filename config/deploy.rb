@@ -9,7 +9,7 @@ set :deploy_to, "/var/www/apps/#{fetch(:application)}"
 set :branch, :main
 
 set :rbenv_type, :user # or :system, or :fullstaq (for Fullstaq Ruby), depends on your rbenv setup
-set :rbenv_ruby, '3.3.0'
+set :rbenv_ruby, '3.4.1'
 
 set :default_env, {
   PATH: "$HOME/.rbenv/bin:$HOME/.rbenv/shims:$PATH"
